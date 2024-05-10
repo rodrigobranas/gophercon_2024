@@ -1,3 +1,4 @@
+import Dimensions from "../../1_entities/Dimensions";
 import { Product } from "../../1_entities/Product";
 import DatabaseConnection from "../../4_frameworks_and_drivers/DatabaseConnection";
 

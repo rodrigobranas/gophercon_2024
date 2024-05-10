@@ -2,7 +2,6 @@ import crypto from "crypto";
 import { Item } from "./Item";
 import { Coupon } from "./Coupon";
 import { Product } from "./Product";
-import { FreightCalculator } from "./FreightCalculator";
 
 export default class Order {
 	items: Item[];
@@ -22,7 +21,10 @@ export default class Order {
 	addItem (product: Product, quantity: number) {
 		if (quantity < 1) throw new Error("Quantity must be positive");
 		this.items.push(new Item(product.idProduct, product.price, quantity));
-		this.freight += FreightCalculator.calculate(product) * quantity;
+		const volume = (product.width/100) * (product.height/100) * (product.length/100);
+		const density = product.weight/volume;
+		const itemFreight = 1000 * volume * (density/100);
+		this.freight += ((itemFreight >= 10) ? itemFreight : 10) * quantity;
 	}
 
 	applyCoupon (coupon: Coupon) {

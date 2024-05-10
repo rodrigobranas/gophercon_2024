@@ -7,6 +7,15 @@ export default class GetProduct {
 
 	async execute (productId: number) {
 		const product = await this.productRepository.get(productId);
-		return product;
+		return {
+			productId: product.productId,
+			price: product.price,
+			width: product.dimensions.width,
+			height: product.dimensions.height,
+			length: product.dimensions.length,
+			weight: product.dimensions.weight,
+			volume: product.dimensions.getVolume(),
+			density: product.dimensions.getDensity()
+		};
 	}
 }

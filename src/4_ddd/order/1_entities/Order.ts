@@ -2,20 +2,20 @@ import crypto from "crypto";
 import { Item } from "./Item";
 import { Coupon } from "./Coupon";
 import { FreightCalculator } from "./FreightCalculator";
+import Email from "./Email";
 
 export default class Order {
 	items: Item[];
 	coupon?: Coupon;
 	freight = 0;
 
-	constructor (readonly orderId: string, readonly email: string) {
-		if (!email.match(/^(.+)@(.+)$/)) throw new Error("Invalid email");
+	constructor (readonly orderId: string, readonly email: Email) {
 		this.items = [];
 	}
 
 	static create (email: string) {
 		const orderId = crypto.randomUUID();
-		return new Order(orderId, email);
+		return new Order(orderId, new Email(email));
 	}
 
 	addItem (product: any, quantity: number) {

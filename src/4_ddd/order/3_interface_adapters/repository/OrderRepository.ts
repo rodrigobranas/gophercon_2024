@@ -12,7 +12,7 @@ export class OrderRepositoryDatabase implements OrderRepository {
 	}
 
 	async save(order: Order): Promise<void> {
-		await this.connection.query("insert into branas.order (order_id, coupon_code, email, total, freight) values ($1, $2, $3, $4, $5)", [order.orderId, order.coupon, order.email, order.getTotal(), order.freight]);
+		await this.connection.query("insert into branas.order (order_id, coupon_code, email, total, freight) values ($1, $2, $3, $4, $5)", [order.orderId, order.coupon, order.email.getValue(), order.getTotal(), order.freight]);
 		for (const item of order.items) {
 			await this.connection.query("insert into branas.item (order_id, product_id, price, quantity) values ($1, $2, $3, $4)", [order.orderId, item.productId, item.price, item.quantity]);
 		}
